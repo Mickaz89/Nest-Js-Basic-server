@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { configValidationSchema } from './config.schema';
+import { configValidationSchema, configuration } from './config.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AppController } from './app.controller';
@@ -8,8 +8,7 @@ import { AppController } from './app.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.local', '.env.dev'],
-      isGlobal: true,
+      envFilePath: `${process.env.NODE_ENV}.env`,
       validationSchema: configValidationSchema,
     }),
     MongooseModule.forRootAsync({
