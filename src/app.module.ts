@@ -3,11 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [`.env.stage.${process.env.STAGE}`],
+      envFilePath: ['.env.local', '.env.dev'],
+      isGlobal: true,
       validationSchema: configValidationSchema,
     }),
     MongooseModule.forRootAsync({
@@ -19,5 +21,6 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
